@@ -17,7 +17,8 @@ class WeatherAndPitchCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+      color: kPrimaryColorTran,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
       elevation: 6,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -33,6 +34,13 @@ class WeatherAndPitchCard extends StatelessWidget {
                   style: kInCardTextStyle,
                 ),
               ],
+            ),
+          ),
+          SizedBox(
+            width: 1,
+            child: Divider(
+              thickness: 15,
+              color: Colors.grey,
             ),
           ),
           Text(

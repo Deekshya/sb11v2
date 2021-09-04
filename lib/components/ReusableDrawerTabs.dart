@@ -5,7 +5,8 @@ class ReusableDrawerTabs extends StatelessWidget {
   final IconData iconName;
   final Function() onTap;
 
-  ReusableDrawerTabs({required this.label, required this.iconName, required this.onTap});
+  ReusableDrawerTabs(
+      {required this.label, required this.iconName, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +22,7 @@ class ReusableDrawerTabs extends StatelessWidget {
           ),
           title: Text(
             label,
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
             textAlign: TextAlign.left,
           ),
         ),

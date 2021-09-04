@@ -1,47 +1,40 @@
 import 'package:flutter/material.dart';
 
 const kPrimaryColor = Color(0xff0d263d);
-const kAccentColor = Color(0xffd9e8f6);
+const kPrimaryColorTran = Color(0xbf0d263d);
+const kAccentColor = Colors.white;
 const KCardColor = Color(0xff02111d);
 //Color(0xff02111d);
 const kSubHeading =
     TextStyle(fontSize: 16, color: Colors.black, fontWeight: FontWeight.bold);
-const kInCardTextStyle = TextStyle(fontSize: 18, color: kPrimaryColor);
-void getData()
-{
+const kInCardTextStyle = TextStyle(fontSize: 16, color: Color(0xffebece8));
+void getData() {}
+const kStyleInFeedback =
+    TextStyle(color: Color(0xFF474545), fontWeight: FontWeight.bold);
 
-}
+const kTeamNews = 'asfsdfasfasdfasdfa \n' 'asfsdfasfasdfasdfa \n';
 
-const kTeam1XI = 'Player 1 \n'
-    'Player 2 \n'
-    'Player 3 \n'
-    'Player 4 \n'
-    'Player 5 \n'
-    'Player 6 \n'
-    'Player 7 \n'
-    'Player 8 \n'
-    'Player 9 \n'
-    'Player 10 \n'
-    'Player 11 \n';
+const kTextStyleInPreviewCards =
+    TextStyle(color: Color(0xffebece8), fontSize: 14);
+const kTextStyleInPreviewCardsHeader =
+    TextStyle(color: Colors.white, fontSize: 15);
+//card on homeScreen
+List<String> matchTitle = [];
+List<String> matchCenterTitle = [];
+List<String> dateTimeOfMatch = [];
+List<String> awayTeamFlagUrl = [];
+List<String> homeTeamFlagUrl = [];
+//content of preview screen
+List<Map> weather = [];
+List<Map> pitch = [];
+List<List> awayPlaying11 = [];
+List<List> homePlaying11 = [];
 
-const kTeam2XI = 'Player 1 \n'
-    'Player 2 \n'
-    'Player 3 \n'
-    'Player 4 \n'
-    'Player 5 \n'
-    'Player 6 \n'
-    'Player 7 \n'
-    'Player 8 \n'
-    'Player 9 \n'
-    'Player 10 \n'
-    'Player 11 \n';
+List<String> homeTeam = [];
+List<String> awayTeam = [];
 
-const kTeam1KeyPlayers = 'Player 1 \n'
-    'Player 2 \n'
-    'Player 3 \n';
+List<List> awayKeyPlayers = [];
+List<List> homeKeyPlayers = [];
 
-const kTeam2KeyPlayers = 'Player 1 \n'
-    'Player 2 \n'
-    'Player 3 \n';
-
-const kTeamNews ='asfsdfasfasdfasdfa \n' 'asfsdfasfasdfasdfa \n';
+List<List> homeTeamNews = [];
+List<List> awayTeamNews = [];

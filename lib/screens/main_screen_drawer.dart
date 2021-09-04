@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sports_buzz11_trial1/components/ReusableDrawerTabs.dart';
 import 'package:sports_buzz11_trial1/nav_drawer_screens/alert_screen.dart';
+import 'package:share/share.dart';
 
 class MainScreenDrawer extends StatelessWidget {
   const MainScreenDrawer({Key? key}) : super(key: key);
@@ -15,7 +16,7 @@ class MainScreenDrawer extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Expanded(
-                flex: 5,
+                flex: 4,
                 child: Container(
                   color: Color(0xff0d263d),
                   child: Column(
@@ -23,11 +24,11 @@ class MainScreenDrawer extends StatelessWidget {
                     children: [
                       CircleAvatar(
                         foregroundImage: AssetImage('images/banner.jpeg'),
-                        radius: 70,
+                        radius: 50,
                         backgroundImage: AssetImage('images/banner.jpeg'),
                       ),
                       Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 15.0),
+                        padding: const EdgeInsets.symmetric(vertical: 10.0),
                         child: Text(
                           'SportsBuzz11',
                           style: TextStyle(
@@ -36,57 +37,101 @@ class MainScreenDrawer extends StatelessWidget {
                               fontWeight: FontWeight.bold),
                         ),
                       ),
-
                     ],
                   ),
                 )),
             Expanded(
-                flex: 1,
-                child: ReusableDrawerTabs(
-                    label: 'About Us', iconName: Icons.info,onTap: (){
-                      showDialog(context: context, builder: (context)=>AlertScreen().aboutUsPopUp(context));
-                },)),
-            Expanded(
-                flex: 1,
-                child: ReusableDrawerTabs(
-                    label: 'Help and Support',
-                    iconName: Icons.contact_support,onTap: (){
-                  showDialog(context: context, builder: (context)=>AlertScreen().helpAndSupportPopUp(context));
-                },)),
-            Expanded(
-                flex: 1,
-                child: ReusableDrawerTabs(
-                    label: 'Feedback', iconName: Icons.feedback,onTap: (){
-                  showDialog(context: context, builder: (context)=>AlertScreen().feedBackPopUp(context));
-                },)),
-            Expanded(
-                flex: 1,
-                child:
-                    ReusableDrawerTabs(label: 'Share', iconName: Icons.share,onTap: (){
-                      showDialog(context: context, builder: (context)=>AlertScreen().aboutUsPopUp(context));
-                    },)),
-            Expanded(
-                flex: 1,
-                child: ReusableDrawerTabs(
-                    label: 'Rate Us', iconName: Icons.star_rate,onTap: (){
-                  showDialog(context: context, builder: (context)=>AlertScreen().aboutUsPopUp(context));
-                },)),
-            Expanded(
-              flex: 2,
-              child: Container(
-                alignment: Alignment.bottomCenter,
-                child: Text(
-                  'version 1.0.0',
-                  style: TextStyle(
-                      color: Colors.grey.shade800,
-                      fontSize: 15,
-                      fontWeight: FontWeight.bold),
-                ),
+              flex: 6,
+              child: ListView(
+                children: [
+                  Column(
+                    children: [
+                      ReusableDrawerTabs(
+                        label: 'About Us',
+                        iconName: Icons.info,
+                        onTap: () {
+                          showDialog(
+                              context: context,
+                              builder: (context) =>
+                                  AlertScreen().aboutUsPopUp(context));
+                        },
+                      ),
+                      ReusableDrawerTabs(
+                        label: 'Help and Support',
+                        iconName: Icons.contact_support,
+                        onTap: () {
+                          showDialog(
+                              context: context,
+                              builder: (context) =>
+                                  AlertScreen().helpAndSupportPopUp(context));
+                        },
+                      ),
+                      ReusableDrawerTabs(
+                        label: 'Feedback',
+                        iconName: Icons.feedback,
+                        onTap: () {
+                          showDialog(
+                              context: context,
+                              builder: (context) =>
+                                  AlertScreen().feedBackPopUp(context));
+                        },
+                      ),
+                      ReusableDrawerTabs(
+                        label: 'Share',
+                        iconName: Icons.share,
+                        onTap: () {
+                          print('tapped');
+                          // showDialog(
+                          //     context: context,
+                          //     builder: (context) =>
+                          //
+                          //         AlertScreen().aboutUsPopUp(context));
+
+                          try {
+                            share(context);
+                          } catch (e) {
+                            print(e);
+                          }
+
+                          print('done');
+                        },
+                      ),
+                      // Expanded(
+                      //     flex: 1,
+                      //     child: ReusableDrawerTabs(
+                      //       label: 'Rate Us',
+                      //       iconName: Icons.star_rate,
+                      //       onTap: () {
+                      //         AlertScreen().shareThisApp();
+                      //       },
+                      //     )),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+            Container(
+              height: 12,
+              alignment: Alignment.bottomCenter,
+              child: Text(
+                'version 1.0.0',
+                style: TextStyle(
+                    color: Colors.grey.shade800,
+                    fontSize: 12,
+                    fontWeight: FontWeight.bold),
               ),
             )
           ],
         ),
       ),
     );
+  }
+
+  share(BuildContext context) async {
+    final RenderBox box = context.findRenderObject() as RenderBox;
+    String text = 'link goes here..';
+    await Share.share(text,
+        subject: 'this is the subject',
+        sharePositionOrigin: box.localToGlobal(Offset.zero) & box.size);
   }
 }

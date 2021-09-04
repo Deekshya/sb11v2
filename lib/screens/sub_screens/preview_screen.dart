@@ -2,23 +2,26 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:sports_buzz11_trial1/constants.dart';
 import 'package:sports_buzz11_trial1/components/reusable_weather_pitch_card.dart';
+import 'package:sports_buzz11_trial1/components/reusable_player_cards.dart';
+import 'package:sports_buzz11_trial1/components/reusable_news_card.dart';
 
 class PreviewScreen extends StatelessWidget {
-  const PreviewScreen({Key? key}) : super(key: key);
+  final int index;
+  PreviewScreen({required this.index});
 
   @override
   Widget build(BuildContext context) {
     return ListView(
       children: [
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+          padding: const EdgeInsets.symmetric(horizontal: 5.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Padding(
                 padding: const EdgeInsets.all(10.0),
                 child: Text(
-                  'IND vs AUS',
+                  '${matchCenterTitle[index]}',
                   textAlign: TextAlign.center,
                   style: TextStyle(
                       color: Colors.black87,
@@ -26,91 +29,80 @@ class PreviewScreen extends StatelessWidget {
                       fontSize: 25.0),
                 ),
               ),
-              Text('Weather Report:', style: kSubHeading),
+              Text('Weather Report:',
+                  textAlign: TextAlign.center, style: kSubHeading),
               Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8),
+                  padding: const EdgeInsets.symmetric(vertical: 8),
                   child: WeatherAndPitchCard(
-                    label1: 'Temperature: 32C',
-                    label2: 'Humidity: 12%',
-                    label3: '🌞',
+                    label1: 'Temperature: ${weather[index]['temperature']}℃',
+                    label2: 'Humidity: ${weather[index]['humidity']}%',
+                    label3: '${weather[index]['climateEmoji']}',
                     size: 35,
                   )),
-              Text('Pitch Report', style: kSubHeading),
+              Text('Pitch Report:',
+                  textAlign: TextAlign.center, style: kSubHeading),
               Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8),
+                  padding: const EdgeInsets.symmetric(vertical: 8),
                   child: WeatherAndPitchCard(
-                    label1: 'Wankhade Stadium',
-                    label2: 'Batting',
-                    label3: 'Avg.Sc:23',
+                    label1: '${pitch[index]['stadiumName']}',
+                    label2: '${pitch[index]['batOrBall']}',
+                    label3: 'Avg. Score: ${pitch[index]['avgScore']}',
                     size: 18,
                   )),
-              Text('Playing 11', style: kSubHeading),
+              Text('Playing 11:',
+                  textAlign: TextAlign.center, style: kSubHeading),
               Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.symmetric(vertical: 8.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     Expanded(
-                        child: Card(
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10)),
-                      child: Text(kTeam1XI,textAlign: TextAlign.center,),
-                      elevation: 6,
+                        child: ReusablePlayerCards(
+                      homeTeamName: homeTeam[index],
+                      playersList: homePlaying11[index],
                     )),
                     Expanded(
-                        child: Card(
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10)),
-                      child: Text(kTeam2XI,textAlign: TextAlign.center,),
-                      elevation: 6,
-                    )),
+                        child: ReusablePlayerCards(
+                      homeTeamName: awayTeam[index],
+                      playersList: awayPlaying11[index],
+                    ))
                   ],
                 ),
               ),
-              Text('Key Players', style: kSubHeading),
+              Text('Key Players:',
+                  textAlign: TextAlign.center, style: kSubHeading),
               Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.symmetric(vertical: 8.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     Expanded(
-                        child: Card(
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10)),
-                          child: Text(kTeam1KeyPlayers,textAlign: TextAlign.center,),
-                          elevation: 6,
-                        )),
+                        child: ReusablePlayerCards(
+                      homeTeamName: homeTeam[index],
+                      playersList: homeKeyPlayers[index],
+                    )),
                     Expanded(
-                        child: Card(
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10)),
-                          child: Text(kTeam2KeyPlayers,textAlign: TextAlign.center,),
-                          elevation: 6,
-                        )),
+                        child: ReusablePlayerCards(
+                      homeTeamName: awayTeam[index],
+                      playersList: awayKeyPlayers[index],
+                    )),
                   ],
                 ),
               ),
-              Text('Team1 News', style: kSubHeading),
-              Card(
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10)),
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(kTeamNews,),
+              Text('${homeTeam[index]} News:',
+                  textAlign: TextAlign.center, style: kSubHeading),
+              Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8.0),
+                  child: ReusableNewsCard(
+                    newsList: homeTeamNews[index],
+                  )),
+              Text('${awayTeam[index]} News:',
+                  textAlign: TextAlign.center, style: kSubHeading),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8.0),
+                child: ReusableNewsCard(
+                  newsList: awayTeamNews[index],
                 ),
-                elevation: 6,
-              ),
-              Text('Team2 News', style: kSubHeading),
-              Card(
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10)),
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(kTeamNews,),
-                ),
-                elevation: 6,
               ),
             ],
           ),

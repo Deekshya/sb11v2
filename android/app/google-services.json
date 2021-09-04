@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "592292054465",
+    "project_id": "sb11-7dc69",
+    "storage_bucket": "sb11-7dc69.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:592292054465:android:7c11f96fefc8916be75b40",
+        "android_client_info": {
+          "package_name": "com.example.sports_buzz11_trial1"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "592292054465-1j8oo86a2svfkiuv7rt303klcba5hmh8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyASzPgA1kmDOgKNz2_VtPFnHLJVoLHLt9Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "592292054465-1j8oo86a2svfkiuv7rt303klcba5hmh8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

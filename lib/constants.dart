@@ -21,7 +21,10 @@ const kTextStyleInPreviewCardsHeader =
 //card on homeScreen
 List<String> matchTitle = [];
 List<String> matchCenterTitle = [];
-List<String> dateTimeOfMatch = [];
+
+List<String> startTimeOfMatch = [];
+List<String> endTimeOfMatch = [];
+
 List<String> awayTeamFlagUrl = [];
 List<String> homeTeamFlagUrl = [];
 //content of preview screen
@@ -38,3 +41,39 @@ List<List> homeKeyPlayers = [];
 
 List<List> homeTeamNews = [];
 List<List> awayTeamNews = [];
+
+Map<int, Widget> status = {
+  1: Container(
+    decoration: BoxDecoration(
+        color: Colors.red, borderRadius: BorderRadius.circular(5)),
+    child: Padding(
+      padding: const EdgeInsets.all(2.0),
+      child: Text(
+        '• LIVE',
+        style: TextStyle(color: Colors.white, fontSize: 10),
+      ),
+    ),
+  ),
+  2: Container(
+    decoration: BoxDecoration(
+        color: Colors.amber[900], borderRadius: BorderRadius.circular(5)),
+    child: Padding(
+      padding: const EdgeInsets.all(2.0),
+      child: Text(
+        'COMPLETED',
+        style: TextStyle(color: Colors.white, fontSize: 10),
+      ),
+    ),
+  ),
+  3: Container(
+    decoration: BoxDecoration(
+        color: Colors.green, borderRadius: BorderRadius.circular(5)),
+    child: Padding(
+      padding: const EdgeInsets.all(2.0),
+      child: Text(
+        'UPCOMING',
+        style: TextStyle(color: Colors.white, fontSize: 10),
+      ),
+    ),
+  ),
+};

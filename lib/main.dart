@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:sports_buzz11_trial1/screens/target_screen.dart';
 import 'screens/homeScreen.dart';
-import 'package:sports_buzz11_trial1/content/PostContent.dart';
-import 'package:sports_buzz11_trial1/content/NewsContent.dart';
+import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:sports_buzz11_trial1/screens/main_screen_drawer.dart';
 import 'screens/trial_bottom_bar_screen.dart';
 import 'package:rate_my_app/rate_my_app.dart';
 
 import 'constants.dart';
 
-void main() => runApp(MyApp());
+void main() => runApp(Phoenix(child: MyApp()));
 
 class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);

@@ -1,8 +1,10 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import '../constants.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:intl/intl.dart';
-import 'package:sports_buzz11_trial1/components/reusable_status_card.dart';
+
 import 'package:flutter_phoenix/flutter_phoenix.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -13,16 +15,29 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  DatabaseReference databaseReference = FirebaseDatabase.instance.reference();
   int flag = 0;
+  int temp = 0;
   var keys;
+  Timer? timer;
   @override
   void initState() {
     super.initState();
+    getDate();
+  }
 
-    DatabaseReference databaseReference = FirebaseDatabase.instance.reference();
-    databaseReference.once().then((DataSnapshot dataSnapshot) {
+  @override
+  void dispose() {
+    timer?.cancel();
+    super.dispose();
+  }
+
+  void getDate() {
+    databaseReference.child("").onValue.listen((event) {
+      DataSnapshot dataSnapshot = event.snapshot;
       keys = dataSnapshot.value.keys;
       var values = dataSnapshot.value;
+      clearList();
       for (var key in keys) {
         setState(() {
           matchTitle.add(values[key]["matchTitle"]);
@@ -39,44 +54,48 @@ class _HomeScreenState extends State<HomeScreen> {
               .add(values[key]["cardData"]["keyPlayers"]["awayKeyPlayers"]);
           homeKeyPlayers
               .add(values[key]["cardData"]["keyPlayers"]["homeKeyPlayers"]);
+          homeTeamNews.add(values[key]["cardData"]["homeTeamNews"]);
+          awayTeamNews.add(values[key]["cardData"]["awayTeamNews"]);
+
+          awayTeamFlagUrl.add(values[key]["awayTeamFlagUrl"]);
+          homeTeamFlagUrl.add(values[key]["homeTeamFlagUrl"]);
+
+          startTimeOfMatch.add(values[key]["startTimeOfMatch"]);
+          endTimeOfMatch.add(values[key]["endTimeOfMatch"]);
+
+          best11ImageUrl.add(values[key]["best11"]);
         });
-        homeTeamNews.add(values[key]["cardData"]["homeTeamNews"]);
-        awayTeamNews.add(values[key]["cardData"]["awayTeamNews"]);
-
-        awayTeamFlagUrl.add(values[key]["awayTeamFlagUrl"]);
-        homeTeamFlagUrl.add(values[key]["homeTeamFlagUrl"]);
-
-        startTimeOfMatch.add(values[key]["startTimeOfMatch"]);
-        endTimeOfMatch.add(values[key]["endTimeOfMatch"]);
       }
 
-      //print(sDateTime);
+      //print(awayPlaying11[0]);
     });
   }
 
   int checkStatus(DateTime sDateTime, DateTime eDateTime) {
     if (DateTime.now().isAfter(sDateTime) && DateTime.now().isBefore(eDateTime))
-      flag = 1; //match is live
+      temp = 1; //match is live
     else if (DateTime.now().isAfter(eDateTime))
-      flag = 2; //match is completed
+      temp = 2; //match is completed
     else
-      flag = 3; //match is upcoming
-    return flag;
+      temp = 3; //match is upcoming
+    return temp;
   }
 
   @override
   Widget build(BuildContext context) {
+    flag = temp;
     return Scaffold(
       floatingActionButton: FloatingActionButton(
-          backgroundColor: kPrimaryColor,
-          child: Icon(
-            Icons.refresh,
-            color: kAccentColor,
-            size: 30,
-          ),
-          onPressed: () {
-            Phoenix.rebirth(context);
-          }),
+        backgroundColor: kPrimaryColor,
+        child: Icon(
+          Icons.refresh,
+          size: 30,
+          color: Colors.white,
+        ),
+        onPressed: () {
+          Phoenix.rebirth(context);
+        },
+      ),
       body: Container(
         child: ListView.builder(
             itemCount: matchTitle.length,
@@ -84,6 +103,8 @@ class _HomeScreenState extends State<HomeScreen> {
               DateTime sDateTime = DateTime.parse(startTimeOfMatch[index]);
               DateTime eDateTime = DateTime.parse(endTimeOfMatch[index]);
               flag = checkStatus(sDateTime, eDateTime);
+              timer = Timer.periodic(Duration(seconds: 5),
+                  (Timer t) => checkStatus(sDateTime, eDateTime));
               //print(DateFormat('y/M/d H:m').format(sDateTime));
 
               return Padding(
@@ -109,7 +130,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Padding(
-                                  padding: const EdgeInsets.only(left: 90),
+                                  padding: const EdgeInsets.only(left: 10),
                                   child: Text(
                                     matchTitle[index],
                                     style: TextStyle(
@@ -132,7 +153,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             ),
                             SizedBox(
                               height: 2,
-                              width: MediaQuery.of(context).size.width - 200,
+                              width: double.infinity,
                               child: Divider(
                                 thickness: .5,
                                 color: Colors.grey,

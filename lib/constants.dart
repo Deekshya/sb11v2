@@ -16,8 +16,11 @@ const kTeamNews = 'asfsdfasfasdfasdfa \n' 'asfsdfasfasdfasdfa \n';
 
 const kTextStyleInPreviewCards =
     TextStyle(color: Color(0xffebece8), fontSize: 14);
-const kTextStyleInPreviewCardsHeader =
-    TextStyle(color: Colors.white, fontSize: 15);
+const kTextStyleInPreviewCardsHeader = TextStyle(
+    color: Colors.white,
+    fontSize: 15,
+    fontWeight: FontWeight.bold,
+    letterSpacing: 2);
 //card on homeScreen
 List<String> matchTitle = [];
 List<String> matchCenterTitle = [];
@@ -41,6 +44,32 @@ List<List> homeKeyPlayers = [];
 
 List<List> homeTeamNews = [];
 List<List> awayTeamNews = [];
+
+List<List> best11ImageUrl = [];
+
+void clearList() {
+  matchTitle.clear();
+  matchCenterTitle.clear();
+
+  startTimeOfMatch.clear();
+  endTimeOfMatch.clear();
+
+  awayTeamFlagUrl.clear();
+  homeTeamFlagUrl.clear();
+//content of preview screen
+  weather.clear();
+  pitch.clear();
+  awayPlaying11.clear();
+  homePlaying11.clear();
+
+  homeTeam.clear();
+  awayTeam.clear();
+
+  awayKeyPlayers.clear();
+  homeKeyPlayers.clear();
+  homeTeamNews.clear();
+  awayTeamNews.clear();
+}
 
 Map<int, Widget> status = {
   1: Container(

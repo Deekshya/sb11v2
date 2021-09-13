@@ -16,9 +16,20 @@ class ReusableNewsCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             for (var news in newsList)
-              Text(
-                ' • $news',
-                style: kTextStyleInPreviewCards,
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    ' • ',
+                    style: kTextStyleInPreviewCards,
+                  ),
+                  Expanded(
+                    child: Text(
+                      '$news',
+                      style: kTextStyleInPreviewCards,
+                    ),
+                  )
+                ],
               ),
           ],
         ),

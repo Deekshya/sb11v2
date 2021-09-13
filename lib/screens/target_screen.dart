@@ -25,7 +25,12 @@ class TargetScreen extends StatelessWidget {
           ),
         ),
         body: TabBarView(
-          children: [PreviewScreen(index: index), BestXIScreen()],
+          children: [
+            PreviewScreen(index: index),
+            BestXIScreen(
+              cardIndex: index,
+            )
+          ],
         ),
       ),
     );

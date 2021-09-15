@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sports_buzz11_trial1/screens/sub_screens/bestxi_screen.dart';
 import 'package:sports_buzz11_trial1/screens/sub_screens/preview_screen.dart';
+import 'package:sports_buzz11_trial1/constants.dart';
 
 class TargetScreen extends StatelessWidget {
   @override
@@ -12,7 +13,16 @@ class TargetScreen extends StatelessWidget {
       initialIndex: 0,
       child: Scaffold(
         appBar: AppBar(
-          title: Text('sportsBuzz11'),
+          title: Hero(
+            tag: "matchTitleHero",
+            child: Text(
+              '${matchCenterTitle[index]}',
+              style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 25.0),
+            ),
+          ),
           bottom: TabBar(
             tabs: [
               Tab(

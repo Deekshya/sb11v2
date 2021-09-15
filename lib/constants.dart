@@ -45,9 +45,13 @@ List<List> homeKeyPlayers = [];
 List<List> homeTeamNews = [];
 List<List> awayTeamNews = [];
 
-List<List> best11ImageUrl = [];
+List<String> keyList = [];
 
+List<List> best11ImageUrl = [];
+List<int> flagsStatus = [];
 void clearList() {
+  keyList.clear();
+  flagsStatus.clear();
   matchTitle.clear();
   matchCenterTitle.clear();
 

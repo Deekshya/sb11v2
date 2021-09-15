@@ -19,18 +19,10 @@ class PreviewScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: Text(
-                  '${matchCenterTitle[index]}',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                      color: Colors.black87,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 25.0),
-                ),
+                padding: const EdgeInsets.only(top: 8.0),
+                child: Text('Weather Report:',
+                    textAlign: TextAlign.center, style: kSubHeading),
               ),
-              Text('Weather Report:',
-                  textAlign: TextAlign.center, style: kSubHeading),
               Padding(
                   padding: const EdgeInsets.symmetric(vertical: 8),
                   child: WeatherAndPitchCard(

@@ -16,9 +16,11 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   DatabaseReference databaseReference = FirebaseDatabase.instance.reference();
+
   int flag = 0;
   int temp = 0;
   var keys;
+  var values;
   Timer? timer;
   @override
   void initState() {
@@ -36,7 +38,7 @@ class _HomeScreenState extends State<HomeScreen> {
     databaseReference.child("").onValue.listen((event) {
       DataSnapshot dataSnapshot = event.snapshot;
       keys = dataSnapshot.value.keys;
-      var values = dataSnapshot.value;
+      values = dataSnapshot.value;
       clearList();
       for (var key in keys) {
         setState(() {
@@ -64,14 +66,20 @@ class _HomeScreenState extends State<HomeScreen> {
           endTimeOfMatch.add(values[key]["endTimeOfMatch"]);
 
           best11ImageUrl.add(values[key]["best11"]);
+          DateTime sDateTime = DateTime.parse(values[key]["startTimeOfMatch"]);
+          DateTime eDateTime = DateTime.parse(values[key]["endTimeOfMatch"]);
+          flag = checkStatus(sDateTime, eDateTime);
+          flagsStatus.add(flag);
+          databaseReference.child("$key").update({"matchStatus": flag});
+
+          keyList.add(key);
         });
       }
-
-      //print(awayPlaying11[0]);
     });
   }
 
   int checkStatus(DateTime sDateTime, DateTime eDateTime) {
+    int temp;
     if (DateTime.now().isAfter(sDateTime) && DateTime.now().isBefore(eDateTime))
       temp = 1; //match is live
     else if (DateTime.now().isAfter(eDateTime))
@@ -81,30 +89,43 @@ class _HomeScreenState extends State<HomeScreen> {
     return temp;
   }
 
+  void checkStatusTimer(
+      int index, var path, DateTime sDateTime, DateTime eDateTime) {
+    if (DateTime.now().isAfter(sDateTime) &&
+        DateTime.now().isBefore(eDateTime)) {
+      flagsStatus[index] = 1; //match is live
+      databaseReference
+          .child("$path")
+          .update({"matchStatus": flagsStatus[index]});
+    } else if (DateTime.now().isAfter(eDateTime)) {
+      flagsStatus[index] = 2; //match is completed
+      databaseReference
+          .child("$path")
+          .update({"matchStatus": flagsStatus[index]});
+    } else {
+      flagsStatus[index] = 3; //match is upcoming
+      databaseReference
+          .child("$path")
+          .update({"matchStatus": flagsStatus[index]});
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     flag = temp;
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: kPrimaryColor,
-        child: Icon(
-          Icons.refresh,
-          size: 30,
-          color: Colors.white,
-        ),
-        onPressed: () {
-          Phoenix.rebirth(context);
-        },
-      ),
       body: Container(
         child: ListView.builder(
             itemCount: matchTitle.length,
             itemBuilder: (context, index) {
               DateTime sDateTime = DateTime.parse(startTimeOfMatch[index]);
               DateTime eDateTime = DateTime.parse(endTimeOfMatch[index]);
-              flag = checkStatus(sDateTime, eDateTime);
-              timer = Timer.periodic(Duration(seconds: 5),
-                  (Timer t) => checkStatus(sDateTime, eDateTime));
+
+              //flag = checkStatus(index, sDateTime, eDateTime);
+              timer = Timer.periodic(
+                  Duration(seconds: 5),
+                  (Timer t) => checkStatusTimer(
+                      index, keyList[index], sDateTime, eDateTime));
               //print(DateFormat('y/M/d H:m').format(sDateTime));
 
               return Padding(
@@ -145,7 +166,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 ),
                                 Padding(
                                     padding: const EdgeInsets.only(right: 8.0),
-                                    child: status[flag])
+                                    child: status[flagsStatus[index]])
                               ],
                             ),
                             SizedBox(
@@ -169,21 +190,25 @@ class _HomeScreenState extends State<HomeScreen> {
                                     flex: 1,
                                     child: CircleAvatar(
                                       backgroundImage:
-                                          NetworkImage(awayTeamFlagUrl[index]),
+                                          NetworkImage(homeTeamFlagUrl[index]),
                                       radius: 30,
                                     )),
                                 Expanded(
                                   flex: 3,
                                   child: Column(children: [
-                                    Text(
-                                      matchCenterTitle[index],
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                          color: Colors.white70,
-                                          letterSpacing: 5,
-                                          fontFamily: 'Arvo',
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.bold),
+                                    Hero(
+                                      tag: "matchTitleHero",
+                                      transitionOnUserGestures: true,
+                                      child: Text(
+                                        matchCenterTitle[index],
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                            color: Colors.white70,
+                                            letterSpacing: 5,
+                                            fontFamily: 'Arvo',
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.bold),
+                                      ),
                                     ),
                                     SizedBox(
                                       height: 15,
@@ -202,7 +227,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     flex: 1,
                                     child: CircleAvatar(
                                       backgroundImage:
-                                          NetworkImage(homeTeamFlagUrl[index]),
+                                          NetworkImage(awayTeamFlagUrl[index]),
                                       radius: 30,
                                     ))
                               ],

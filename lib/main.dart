@@ -5,10 +5,14 @@ import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:sports_buzz11_trial1/screens/main_screen_drawer.dart';
 import 'screens/trial_bottom_bar_screen.dart';
 import 'package:rate_my_app/rate_my_app.dart';
+import 'nav_drawer_screens/alert_screen.dart';
+
+import 'dart:async';
 
 import 'constants.dart';
 
-void main() => runApp(Phoenix(child: MyApp()));
+void main() => runApp(
+    MaterialApp(debugShowCheckedModeBanner: false, home: SplashScreen()));
 
 class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -22,44 +26,53 @@ class _MyAppState extends State<MyApp> {
     preferencesPrefix: 'rateMyApp_',
     minDays: 0,
     minLaunches: 2,
+    remindDays: 0,
+    remindLaunches: 4,
   );
 
   @override
-  // void initState() {
-  //   super.initState();
-  //   rateMyApp.init().then((_) {
-  //     if (rateMyApp.shouldOpenDialog) {
-  //       print('in if');
-  //       rateMyApp.showStarRateDialog(context,
-  //           title: 'Enjoying the App?', message: 'Please leave a rating..!',
-  //           actionsBuilder: (context, stars) {
-  //         return [
-  //           FlatButton(
-  //             child: Text('OK'),
-  //             onPressed: () {
-  //               rateMyApp.save().then((value) => Navigator.pop(context));
-  //             },
-  //           )
-  //         ];
-  //       },
-  //           dialogStyle: DialogStyle(
-  //             titleAlign: TextAlign.center,
-  //             messageAlign: TextAlign.center,
-  //             messagePadding: EdgeInsets.only(bottom: 20),
-  //           ),
-  //           starRatingOptions: StarRatingOptions());
-  //     }
-  //   });
-  // }
+  void initState() {
+    super.initState();
+    rateMyApp.init().then((_) {
+      //if (rateMyApp.shouldOpenDialog) {
+      print('in if');
+      rateMyApp.showStarRateDialog(context,
+          title: 'Enjoying the App?',
+          message: 'Please leave a rating..!',
+          actionsBuilder: (context, stars) {
+            return [
+              FlatButton(
+                child: Text('OK'),
+                onPressed: () {
+                  if (stars! > 3.0) {
+                    rateMyApp.callEvent(RateMyAppEventType.rateButtonPressed);
+                    rateMyApp.save().then((value) => Navigator.pop(context));
+                  } else if (stars <= 3.0 && stars != 0) {
+                    rateMyApp.callEvent(RateMyAppEventType.laterButtonPressed);
+                    showDialog(
+                        context: context,
+                        builder: (context) =>
+                            AlertScreen().feedBackPopUp(context));
+                  } else {
+                    rateMyApp.callEvent(RateMyAppEventType.laterButtonPressed);
+                    Navigator.pop(context);
+                  }
+                },
+              )
+            ];
+          },
+          dialogStyle: DialogStyle(
+            titleAlign: TextAlign.center,
+            messageAlign: TextAlign.center,
+            messagePadding: EdgeInsets.only(bottom: 20),
+          ),
+          starRatingOptions: StarRatingOptions(),
+          onDismissed: () =>
+              rateMyApp.callEvent(RateMyAppEventType.laterButtonPressed));
+      //}
+    });
+  }
 
-  // List<Widget> bottomNavigationContent = [
-  //   HomeScreen(),
-  //   NewsContent(),
-  //   //TrialBottomBarScreen(),
-  //   PostContent()
-  //   //TargetScreen()
-  // ];
-  // int _currentIndex = 0;
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -77,43 +90,37 @@ class _MyAppState extends State<MyApp> {
           ),
           drawer: MainScreenDrawer(),
           body: Container(
-            // decoration: BoxDecoration(
-            //     image: DecorationImage(
-            //   image: AssetImage('images/logo.png'),
-            //   fit: BoxFit.cover,
-            // )
-            // ),
             child: HomeScreen(),
-            //bottomNavigationContent[_currentIndex]),
-            // bottomNavigationBar: BottomNavigationBar(
-            //   currentIndex: _currentIndex,
-            //   type: BottomNavigationBarType.shifting,
-            //   items: [
-            //     BottomNavigationBarItem(
-            //       title: Text('Home'),
-            //       icon: Icon(Icons.home),
-            //       backgroundColor: kPrimaryColor,
-            //     ),
-            //     BottomNavigationBarItem(
-            //       title: Text('News'),
-            //       icon: Icon(Icons.article),
-            //       backgroundColor: kPrimaryColor,
-            //     ),
-            //     BottomNavigationBarItem(
-            //       title: Text('Post'),
-            //       icon: Icon(Icons.feed),
-            //       backgroundColor: kPrimaryColor,
-            //     ),
-            //   ],
-            //   onTap: (index) {
-            //     setState(() {
-            //       _currentIndex = index;
-            //       print(_currentIndex);
-            //     });
-            //   },
-            // ),
           ),
         ),
+      ),
+    );
+  }
+}
+
+class SplashScreen extends StatefulWidget {
+  const SplashScreen({Key? key}) : super(key: key);
+
+  @override
+  _SplashScreenState createState() => _SplashScreenState();
+}
+
+class _SplashScreenState extends State<SplashScreen> {
+  @override
+  void initState() {
+    super.initState();
+    Timer(
+        Duration(seconds: 3),
+        () => Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (context) => MyApp())));
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      color: Color(0xff0d263d),
+      child: Image(
+        image: AssetImage("images/logo.png"),
       ),
     );
   }

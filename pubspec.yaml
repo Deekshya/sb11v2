@@ -35,8 +35,11 @@ dependencies:
   firebase_database: ^7.2.1
   intl: ^0.17.0
   flutter_phoenix: ^1.0.0
+  store_redirect: ^2.0.0
+  animated_text_kit: ^4.2.1
 
 dev_dependencies:
+  change_app_package_name: ^1.0.0
   flutter_test:
     sdk: flutter
 

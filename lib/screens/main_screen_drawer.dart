@@ -80,31 +80,13 @@ class MainScreenDrawer extends StatelessWidget {
                         label: 'Share',
                         iconName: Icons.share,
                         onTap: () {
-                          print('tapped');
-                          // showDialog(
-                          //     context: context,
-                          //     builder: (context) =>
-                          //
-                          //         AlertScreen().aboutUsPopUp(context));
-
                           try {
                             share(context);
                           } catch (e) {
                             print(e);
                           }
-
-                          print('done');
                         },
                       ),
-                      // Expanded(
-                      //     flex: 1,
-                      //     child: ReusableDrawerTabs(
-                      //       label: 'Rate Us',
-                      //       iconName: Icons.star_rate,
-                      //       onTap: () {
-                      //         AlertScreen().shareThisApp();
-                      //       },
-                      //     )),
                     ],
                   ),
                 ],
@@ -129,7 +111,8 @@ class MainScreenDrawer extends StatelessWidget {
 
   share(BuildContext context) async {
     final RenderBox box = context.findRenderObject() as RenderBox;
-    String text = 'link goes here..';
+    String text =
+        'https://play.google.com/store/apps/details?id=com.sports.buzz11';
     await Share.share(text,
         subject: 'this is the subject',
         sharePositionOrigin: box.localToGlobal(Offset.zero) & box.size);

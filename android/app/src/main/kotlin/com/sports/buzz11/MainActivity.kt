@@ -1,4 +1,4 @@
-package com.example.sports_buzz11_trial1
+package com.sports.buzz11
 
 import io.flutter.embedding.android.FlutterActivity
 

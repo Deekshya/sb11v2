@@ -1,33 +1,34 @@
 {
   "project_info": {
-    "project_number": "592292054465",
-    "project_id": "sb11-7dc69",
-    "storage_bucket": "sb11-7dc69.appspot.com"
+    "project_number": "589041175219",
+    "firebase_url": "https://sportsbuzz11-4f852-default-rtdb.firebaseio.com",
+    "project_id": "sportsbuzz11-4f852",
+    "storage_bucket": "sportsbuzz11-4f852.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:592292054465:android:7c11f96fefc8916be75b40",
+        "mobilesdk_app_id": "1:589041175219:android:749787d4f6c7604a603ec6",
         "android_client_info": {
-          "package_name": "com.example.sports_buzz11_trial1"
+          "package_name": "com.sports.buzz11"
         }
       },
       "oauth_client": [
         {
-          "client_id": "592292054465-1j8oo86a2svfkiuv7rt303klcba5hmh8.apps.googleusercontent.com",
+          "client_id": "589041175219-1mpokldn31tp4dsgnq0v896delsghlaa.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyASzPgA1kmDOgKNz2_VtPFnHLJVoLHLt9Y"
+          "current_key": "AIzaSyBiec9YfjyDK2OswrOCMVr8PSHolqTwap4"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "592292054465-1j8oo86a2svfkiuv7rt303klcba5hmh8.apps.googleusercontent.com",
+              "client_id": "589041175219-1mpokldn31tp4dsgnq0v896delsghlaa.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

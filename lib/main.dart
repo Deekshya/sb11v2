@@ -6,6 +6,8 @@ import 'package:sports_buzz11_trial1/screens/main_screen_drawer.dart';
 import 'screens/trial_bottom_bar_screen.dart';
 import 'package:rate_my_app/rate_my_app.dart';
 import 'nav_drawer_screens/alert_screen.dart';
+import 'package:store_redirect/store_redirect.dart';
+import 'package:animated_text_kit/animated_text_kit.dart';
 
 import 'dart:async';
 
@@ -24,52 +26,55 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   RateMyApp rateMyApp = RateMyApp(
     preferencesPrefix: 'rateMyApp_',
-    minDays: 0,
-    minLaunches: 2,
-    remindDays: 0,
-    remindLaunches: 4,
+    minDays: 3,
+    minLaunches: 9,
+    remindDays: 7,
+    remindLaunches: 10,
   );
 
   @override
   void initState() {
     super.initState();
     rateMyApp.init().then((_) {
-      //if (rateMyApp.shouldOpenDialog) {
-      print('in if');
-      rateMyApp.showStarRateDialog(context,
-          title: 'Enjoying the App?',
-          message: 'Please leave a rating..!',
-          actionsBuilder: (context, stars) {
-            return [
-              FlatButton(
-                child: Text('OK'),
-                onPressed: () {
-                  if (stars! > 3.0) {
-                    rateMyApp.callEvent(RateMyAppEventType.rateButtonPressed);
-                    rateMyApp.save().then((value) => Navigator.pop(context));
-                  } else if (stars <= 3.0 && stars != 0) {
-                    rateMyApp.callEvent(RateMyAppEventType.laterButtonPressed);
-                    showDialog(
-                        context: context,
-                        builder: (context) =>
-                            AlertScreen().feedBackPopUp(context));
-                  } else {
-                    rateMyApp.callEvent(RateMyAppEventType.laterButtonPressed);
-                    Navigator.pop(context);
-                  }
-                },
-              )
-            ];
-          },
-          dialogStyle: DialogStyle(
-            titleAlign: TextAlign.center,
-            messageAlign: TextAlign.center,
-            messagePadding: EdgeInsets.only(bottom: 20),
-          ),
-          starRatingOptions: StarRatingOptions(),
-          onDismissed: () =>
-              rateMyApp.callEvent(RateMyAppEventType.laterButtonPressed));
-      //}
+      if (rateMyApp.shouldOpenDialog) {
+        print('in if');
+        rateMyApp.showStarRateDialog(context,
+            title: 'Enjoying the App?',
+            message: 'Please leave a rating..!',
+            actionsBuilder: (context, stars) {
+              return [
+                FlatButton(
+                  child: Text('SUBMIT'),
+                  onPressed: () {
+                    if (stars! > 3.0) {
+                      StoreRedirect.redirect(androidAppId: 'com.sports.buzz11');
+                      rateMyApp.callEvent(RateMyAppEventType.rateButtonPressed);
+                      rateMyApp.save().then((value) => Navigator.pop(context));
+                    } else if (stars <= 3.0 && stars != 0) {
+                      rateMyApp
+                          .callEvent(RateMyAppEventType.laterButtonPressed);
+                      showDialog(
+                          context: context,
+                          builder: (context) =>
+                              AlertScreen().feedBackPopUp(context));
+                    } else {
+                      rateMyApp
+                          .callEvent(RateMyAppEventType.laterButtonPressed);
+                      Navigator.pop(context);
+                    }
+                  },
+                )
+              ];
+            },
+            dialogStyle: DialogStyle(
+              titleAlign: TextAlign.center,
+              messageAlign: TextAlign.center,
+              messagePadding: EdgeInsets.only(bottom: 20),
+            ),
+            starRatingOptions: StarRatingOptions(),
+            onDismissed: () =>
+                rateMyApp.callEvent(RateMyAppEventType.laterButtonPressed));
+      }
     });
   }
 
@@ -120,7 +125,7 @@ class _SplashScreenState extends State<SplashScreen> {
     return Container(
       color: Color(0xff0d263d),
       child: Image(
-        image: AssetImage("images/logo.png"),
+        image: AssetImage("images/bannerLogo.png"),
       ),
     );
   }

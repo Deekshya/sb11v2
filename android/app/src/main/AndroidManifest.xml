@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.sports_buzz11_trial1">
+    package="com.sports.buzz11">
    <application
-        android:label="sports_buzz11_trial1"
+        android:label="SportsBuzz11"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"

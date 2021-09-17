@@ -197,17 +197,19 @@ class _HomeScreenState extends State<HomeScreen> {
                                   flex: 3,
                                   child: Column(children: [
                                     Hero(
-                                      tag: "matchTitleHero",
-                                      transitionOnUserGestures: true,
-                                      child: Text(
-                                        matchCenterTitle[index],
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                            color: Colors.white70,
-                                            letterSpacing: 5,
-                                            fontFamily: 'Arvo',
-                                            fontSize: 18,
-                                            fontWeight: FontWeight.bold),
+                                      tag: matchCenterTitle[index],
+                                      child: Material(
+                                        type: MaterialType.transparency,
+                                        child: Text(
+                                          matchCenterTitle[index],
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                              color: Colors.white70,
+                                              letterSpacing: 5,
+                                              fontFamily: 'Arvo',
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.bold),
+                                        ),
                                       ),
                                     ),
                                     SizedBox(

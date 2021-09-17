@@ -14,13 +14,19 @@ class TargetScreen extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(
           title: Hero(
-            tag: "matchTitleHero",
-            child: Text(
-              '${matchCenterTitle[index]}',
-              style: TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 25.0),
+            tag: matchCenterTitle[index],
+            child: Material(
+              type: MaterialType.transparency,
+              child: Text(
+                '${matchCenterTitle[index]}',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                    color: Colors.white70,
+                    letterSpacing: 5,
+                    fontFamily: 'Arvo',
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold),
+              ),
             ),
           ),
           bottom: TabBar(

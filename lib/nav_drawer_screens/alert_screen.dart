@@ -22,7 +22,8 @@ class AlertScreen extends StatelessWidget {
         children: [
           Container(
               child: Text(
-                  'Near the beginning of the lockdown in New York City, I thought about all the lonely people who suddenly were having to confront a whole new kind of loneliness. I also thought about all the couples living in all those apartments who were having to redefine their notions of cohabitating. Perhaps most often—and this might sound strange, but it was a pretty strange time—I thought about those cohabitating couples who’d been on the verge of breaking up when the lockdown began, and how any plans to break up had to be shelved (along with all the rest of one’s plans), and what that must have looked like when added to the other stress, worry, and general discontent that comes with a pandemic. Ticking time bombs! I thought. Huge fights! Murders! I could foresee the day Netflix would run dry and was, perhaps, pre-seeding my desire for other people’s drama.Leave it to Alice McDermott to imagine a lockdown scenario of compassion—of love, even—between two people who have already drifted apart yet have chosen to lock down together. Mira and Adam are recent exes living in Brooklyn when the pandemic turns life on its head. While social distancing, by necessity, is driving so')),
+                  'SportsBuzz11 provides match predictions for all fantasy premier league and fantasy games. This application provides predictions for soccer games, all International and Domestic Cricket matches, Kabaddi League and NBA matches. It also provides sports news, the Full fixture of International Series and today match prediction. SportsBuzz11 provide pre-match report and dream team for famous fantasy leagues like IPL, BBL, CPL, KPL and soccer fantasy like LaLiga (Spain fantasy football league), European Cup and International Football Matches.'
+                  'We have set our vision to provide the best of the predictions and information related to the way someone will be playing Fantasy sports.')),
           FlatButton(
               onPressed: () {
                 Navigator.pop(context);
@@ -41,7 +42,7 @@ class AlertScreen extends StatelessWidget {
         children: [
           Container(
             child: Text(
-                'Please reach out to us on the mail - sportsBuzz11@gmail.com'),
+                'Please reach out to us on the mail - buzzsports11@gmail.com'),
           ),
           FlatButton(
               onPressed: () {

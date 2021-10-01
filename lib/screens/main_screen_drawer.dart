@@ -87,6 +87,12 @@ class MainScreenDrawer extends StatelessWidget {
                           }
                         },
                       ),
+                      ReusableDrawerTabs(
+                          label: 'Privacy Policy',
+                          iconName: Icons.policy,
+                          onTap: () {
+                            Navigator.pushNamed(context, 'privacyPolicyScreen');
+                          })
                     ],
                   ),
                 ],
@@ -96,7 +102,7 @@ class MainScreenDrawer extends StatelessWidget {
               height: 12,
               alignment: Alignment.bottomCenter,
               child: Text(
-                'version 1.0.0',
+                'version 1.0.1',
                 style: TextStyle(
                     color: Colors.grey.shade800,
                     fontSize: 12,

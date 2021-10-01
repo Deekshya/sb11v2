@@ -13,6 +13,7 @@ class TargetScreen extends StatelessWidget {
       initialIndex: 0,
       child: Scaffold(
         appBar: AppBar(
+          backgroundColor: kPrimaryColor,
           title: Hero(
             tag: matchCenterTitle[index],
             child: Material(

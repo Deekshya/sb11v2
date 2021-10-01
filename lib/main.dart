@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sports_buzz11_trial1/screens/privacy_policy_screen.dart';
 import 'package:sports_buzz11_trial1/screens/target_screen.dart';
 import 'screens/homeScreen.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
@@ -8,13 +9,33 @@ import 'package:rate_my_app/rate_my_app.dart';
 import 'nav_drawer_screens/alert_screen.dart';
 import 'package:store_redirect/store_redirect.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:awesome_notifications/awesome_notifications.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 
 import 'dart:async';
 
 import 'constants.dart';
 
-void main() => runApp(
-    MaterialApp(debugShowCheckedModeBanner: false, home: SplashScreen()));
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  FirebaseMessaging.onMessage.listen(_firebasePushHandler);
+  FirebaseMessaging.onBackgroundMessage(_firebasePushHandler);
+  AwesomeNotifications().initialize(null, [
+    NotificationChannel(
+      channelKey: 'key1',
+      channelName: 'sportsbuzz11 point',
+      channelDescription: 'Motification Example',
+      defaultColor: Color(0xff9858DD),
+      ledColor: Colors.white,
+      playSound: true,
+      enableLights: true,
+      enableVibration: true,
+    )
+  ]);
+  runApp(MaterialApp(debugShowCheckedModeBanner: false, home: SplashScreen()));
+}
 
 class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -82,7 +103,10 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      routes: {'targetScreen': (context) => TargetScreen()},
+      routes: {
+        'targetScreen': (context) => TargetScreen(),
+        'privacyPolicyScreen': (context) => PrivacyPolicyScreen()
+      },
       title: 'SportsBuzz11',
       theme: ThemeData(
           primaryColor: kPrimaryColor,
@@ -91,6 +115,7 @@ class _MyAppState extends State<MyApp> {
       home: SafeArea(
         child: Scaffold(
           appBar: AppBar(
+            backgroundColor: kPrimaryColor,
             title: Text('SportsBuzz11'),
           ),
           drawer: MainScreenDrawer(),
@@ -129,4 +154,9 @@ class _SplashScreenState extends State<SplashScreen> {
       ),
     );
   }
+}
+
+Future<void> _firebasePushHandler(RemoteMessage message) async {
+  print("Message from push notification is ${message.data}");
+  AwesomeNotifications().createNotificationFromJsonData(message.data);
 }

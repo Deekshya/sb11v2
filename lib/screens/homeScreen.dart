@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import '../constants.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:intl/intl.dart';
+// ignore: import_of_legacy_library_into_null_safe
+import 'package:data_connection_checker/data_connection_checker.dart';
 
 import 'package:flutter_phoenix/flutter_phoenix.dart';
 
@@ -22,16 +24,83 @@ class _HomeScreenState extends State<HomeScreen> {
   var keys;
   var values;
   Timer? timer;
+
+  late StreamSubscription<DataConnectionStatus> listener;
   @override
   void initState() {
     super.initState();
-    getDate();
+    checkInternetConnection();
+  }
+
+  _showDialogForInternet() async {
+    await Future.delayed(Duration(milliseconds: 50));
+    return showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+              title: Text(" No Internet Connection"),
+              content: Text("Please check your internet connection."),
+              actions: [
+                TextButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                      checkInternetConnection();
+                    },
+                    child: Text('Retry'))
+              ],
+            ));
   }
 
   @override
   void dispose() {
+    listener.cancel();
     timer?.cancel();
     super.dispose();
+  }
+
+  checkInternetConnection() async {
+    // Simple check to see if we have internet
+    //print("The statement 'this machine is connected to the Internet' is: ");
+    //print(await DataConnectionChecker().hasConnection);
+    bool stat = await DataConnectionChecker().hasConnection;
+    //print("bool value -------$stat");
+
+    if (await DataConnectionChecker().hasConnection == true) {
+      //print("yes net-------");
+      getDate();
+      //print("get data is read");
+    } else {
+      //print("------no internet");
+      _showDialogForInternet();
+    }
+    // returns a bool
+
+    // We can also get an enum value instead of a bool
+    // print("Current status: ${await DataConnectionChecker().connectionStatus}");
+    // String stat = "${await DataConnectionChecker().connectionStatus}";
+    // print("<<<<<<<<<$stat");
+    // prints either DataConnectionStatus.connected
+    // or DataConnectionStatus.disconnected
+
+    // This returns the last results from the last call
+    // to either hasConnection or connectionStatus
+    //print("Last results: ${DataConnectionChecker().lastTryResults}");
+
+    // actively listen for status updates
+    // this will cause DataConnectionChecker to check periodically
+    // with the interval specified in DataConnectionChecker().checkInterval
+    // until listener.cancel() is called
+    var listener = DataConnectionChecker().onStatusChange.listen((status) {
+      switch (status) {
+        case DataConnectionStatus.connected:
+          print('Data connection is available.');
+          break;
+        case DataConnectionStatus.disconnected:
+          print('You are disconnected from the internet.');
+          break;
+      }
+    });
+
+    // close listener after 30 seconds, so the program doesn't run forever
   }
 
   void getDate() {

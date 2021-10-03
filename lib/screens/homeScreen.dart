@@ -89,7 +89,7 @@ class _HomeScreenState extends State<HomeScreen> {
     // this will cause DataConnectionChecker to check periodically
     // with the interval specified in DataConnectionChecker().checkInterval
     // until listener.cancel() is called
-    var listener = DataConnectionChecker().onStatusChange.listen((status) {
+    listener = DataConnectionChecker().onStatusChange.listen((status) {
       switch (status) {
         case DataConnectionStatus.connected:
           print('Data connection is available.');

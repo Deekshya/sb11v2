@@ -12,8 +12,10 @@ import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-
+import 'package:sports_buzz11_trial1/screens/news_screen.dart';
+import 'package:sports_buzz11_trial1/screens/news_content_screen.dart';
 import 'dart:async';
+import 'package:sports_buzz11_trial1/screens/web_news_view.dart';
 
 import 'constants.dart';
 
@@ -45,6 +47,9 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  int _currentIndex = 0;
+  List bottomNavigationContent = [HomeScreen(), NewsScreen()];
+
   RateMyApp rateMyApp = RateMyApp(
     preferencesPrefix: 'rateMyApp_',
     minDays: 3,
@@ -105,7 +110,9 @@ class _MyAppState extends State<MyApp> {
       debugShowCheckedModeBanner: false,
       routes: {
         'targetScreen': (context) => TargetScreen(),
-        'privacyPolicyScreen': (context) => PrivacyPolicyScreen()
+        'privacyPolicyScreen': (context) => PrivacyPolicyScreen(),
+        'newsContentScreen': (context) => NewsContentScreen(),
+        'webNewsScreen': (context) => WebNewsView()
       },
       title: 'SportsBuzz11',
       theme: ThemeData(
@@ -114,13 +121,30 @@ class _MyAppState extends State<MyApp> {
           scaffoldBackgroundColor: kAccentColor),
       home: SafeArea(
         child: Scaffold(
+          bottomNavigationBar: BottomNavigationBar(
+            type: BottomNavigationBarType.shifting,
+            currentIndex: _currentIndex,
+            items: [
+              BottomNavigationBarItem(
+                  icon: Icon(Icons.home),
+                  title: Text('Home'),
+                  backgroundColor: kPrimaryColor),
+              BottomNavigationBarItem(
+                  icon: Icon(Icons.article), title: Text('News')),
+            ],
+            onTap: (index) {
+              setState(() {
+                _currentIndex = index;
+              });
+            },
+          ),
           appBar: AppBar(
             backgroundColor: kPrimaryColor,
             title: Text('SportsBuzz11'),
           ),
           drawer: MainScreenDrawer(),
           body: Container(
-            child: HomeScreen(),
+            child: bottomNavigationContent[_currentIndex],
           ),
         ),
       ),

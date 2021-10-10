@@ -1,11 +1,10 @@
 import 'dart:typed_data';
-
 import 'package:flutter/material.dart';
 import 'package:sports_buzz11_trial1/constants.dart';
-import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:sports_buzz11_trial1/constants.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'dart:convert';
-import 'package:webview_flutter/webview_flutter.dart';
-import 'package:sports_buzz11_trial1/screens/web_news_view.dart';
 
 class NewsContentScreen extends StatefulWidget {
   @override
@@ -13,58 +12,105 @@ class NewsContentScreen extends StatefulWidget {
 }
 
 class _NewsContentScreenState extends State<NewsContentScreen> {
-  late firebase_storage.Reference firebaseStorage;
-
-  @override
-  void initState() {
-    firebaseStorage = firebase_storage.FirebaseStorage.instance
-        .ref()
-        .child('/privacyPolicy.txt');
-
-    getNewsData();
-    super.initState();
-  }
-
-  getNewsData() async {
-    var data = await firebaseStorage.getData();
-    print(utf8.decode(data!));
-  }
-
   @override
   Widget build(BuildContext context) {
-    int index =
+    int cardIndex =
         int.parse(ModalRoute.of(context)!.settings.arguments.toString());
+    print('${newsData['news' + '${cardIndex + 1}']['content'][0]}');
     return Scaffold(
+        backgroundColor: KCardColor,
         body: CustomScrollView(
-      slivers: [
-        SliverAppBar(
-          flexibleSpace: FlexibleSpaceBar(
-            background: Image(
-              image: NetworkImage(newsImageUrl[index]),
-              fit: BoxFit.cover,
-            ),
-          ),
-          pinned: true,
-          expandedHeight: 300,
-        ),
-        SliverList(
-            delegate: SliverChildListDelegate([
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: SingleChildScrollView(
-              child: Container(
-                height: MediaQuery.of(context).size.height -
-                    MediaQuery.of(context).padding.vertical,
-                child: WebView(
-                  initialUrl:
-                      'https://firebasestorage.googleapis.com/v0/b/sportsbuzz11-4f852.appspot.com/o/demo.html?alt=media&token=1fb1e815-637d-4b25-a709-6e32099d6795',
-                  javascriptMode: JavascriptMode.unrestricted,
+          slivers: [
+            SliverAppBar(
+              backgroundColor: kPrimaryColor,
+              // title: Text(
+              //   'NEWS',
+              //   style: TextStyle(fontSize: 15),
+              // ),
+              flexibleSpace: FlexibleSpaceBar(
+                background: Image(
+                  image: NetworkImage(
+                      newsData['news' + '${cardIndex + 1}']['imageUrl']),
+                  fit: BoxFit.cover,
                 ),
               ),
+              pinned: true,
+              expandedHeight: 300,
             ),
-          )
-        ]))
-      ],
-    ));
+            SliverList(
+                delegate: SliverChildListDelegate([
+              SingleChildScrollView(
+                child: Container(
+                  color: KCardColor,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      //MediaQuery.of(context).padding.vertical,
+                      children: [
+                        Text(
+                          '${newsData['news' + '${cardIndex + 1}']['header']}',
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 25,
+                              fontFamily: 'Arvo',
+                              fontWeight: FontWeight.bold),
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Text(
+                          '${newsData['news' + '${cardIndex + 1}']['date']} - SportsBuzz11',
+                          style: TextStyle(
+                            color: Colors.blueGrey,
+                            fontSize: 18,
+                          ),
+                        ),
+                        //ListView Didnt work here so we added a new SliverList
+                        // ListView.builder(
+                        //     itemCount: newsData['news' + '${cardIndex + 1}']
+                        //             ['content']
+                        //         .length,
+                        //     itemBuilder: (context, index) {
+                        //       return Container(
+                        //         child: Text(
+                        //             '${newsData['news' + '${cardIndex + 1}']['content'][index]}'),
+                        //       );
+                        //     })
+                      ],
+                    ),
+                  ),
+                ),
+              )
+            ])),
+            SliverList(
+              delegate: SliverChildBuilderDelegate(
+                (BuildContext context, int index) {
+                  return Container(
+                    color: KCardColor,
+                    alignment: Alignment.center,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 5.0),
+                      child: Column(
+                        children: [
+                          Text(
+                            '      ${newsData['news' + '${cardIndex + 1}']['content'][index]}',
+                            style: TextStyle(fontSize: 20, color: Colors.grey),
+                          ),
+                          SizedBox(
+                            height: 10,
+                          )
+                        ],
+                      ),
+                    ),
+                  );
+                },
+                childCount:
+                    newsData['news' + '${cardIndex + 1}']['content'].length,
+              ),
+            ),
+          ],
+        ));
   }
 }

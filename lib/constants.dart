@@ -112,6 +112,8 @@ Map<int, Widget> status = {
   ),
 };
 
+//--------------new section--------------
+Map newsData = {};
 List<String> newsHeader = ['CSK Qualifies Finals', 'MI may win this Time'];
 List<String> newsContent = [
   "Come festive season, brands start offering tons of discounts and cashback to boost their sales. One such brand Xiaomi has now come up with ‘Diwali With Mi' sale to offer serious discounts on its top smartphones such as Redmi Note 10 Pro, Redmi Note 10S,  Mi 11X, Mi 11X Pro, and Xiaomi 11 Lite NE 5G, among otheRs.",

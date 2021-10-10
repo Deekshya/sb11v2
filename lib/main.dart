@@ -15,7 +15,6 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:sports_buzz11_trial1/screens/news_screen.dart';
 import 'package:sports_buzz11_trial1/screens/news_content_screen.dart';
 import 'dart:async';
-import 'package:sports_buzz11_trial1/screens/web_news_view.dart';
 
 import 'constants.dart';
 
@@ -112,7 +111,6 @@ class _MyAppState extends State<MyApp> {
         'targetScreen': (context) => TargetScreen(),
         'privacyPolicyScreen': (context) => PrivacyPolicyScreen(),
         'newsContentScreen': (context) => NewsContentScreen(),
-        'webNewsScreen': (context) => WebNewsView()
       },
       title: 'SportsBuzz11',
       theme: ThemeData(
